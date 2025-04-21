@@ -9,51 +9,51 @@ export default function Carousel({
   showNavigation = true,
   className
 }: CarouselProps) {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [isScrolling, setIsScrolling] = useState(false);
-  const carouselRef = useRef<HTMLDivElement>(null);
+  const [index, setIndex] = useState(0);
+  const [isMoving, setIsMoving] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
 
-  const handleNext = () => {
-    if (isScrolling) return;
-    setIsScrolling(true);
-    const nextIndex = (currentIndex + 1) % items.length;
-    setCurrentIndex(nextIndex);
-    scrollToIndex(nextIndex);
+  const next = () => {
+    if (isMoving) return;
+    setIsMoving(true);
+    const nextIndex = (index + 1) % items.length;
+    setIndex(nextIndex);
+    moveToIndex(nextIndex);
   };
 
-  const handlePrev = () => {
-    if (isScrolling) return;
-    setIsScrolling(true);
-    const prevIndex = currentIndex === 0 ? items.length - 1 : currentIndex - 1;
-    setCurrentIndex(prevIndex);
-    scrollToIndex(prevIndex);
+  const prev = () => {
+    if (isMoving) return;
+    setIsMoving(true);
+    const prevIndex = index === 0 ? items.length - 1 : index - 1;
+    setIndex(prevIndex);
+    moveToIndex(prevIndex);
   };
 
-  const scrollToIndex = (index: number) => {
-    if (!carouselRef.current) return;
+  const moveToIndex = (newIndex: number) => {
+    if (!containerRef.current) return;
 
-    const cardWidth = carouselRef.current.children[0]?.getBoundingClientRect().width || 0;
-    const gap = 16; // gap from styles
-    const scrollPosition = index * (cardWidth + gap);
+    const card = containerRef.current.children[0]?.getBoundingClientRect().width || 0;
+    const space = 16;
+    const position = newIndex * (card + space);
 
-    carouselRef.current.scrollTo({
-      left: scrollPosition,
+    containerRef.current.scrollTo({
+      left: position,
       behavior: 'smooth'
     });
 
-    setTimeout(() => setIsScrolling(false), 500);
+    setTimeout(() => setIsMoving(false), 500);
   };
 
   const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
-    if (!carouselRef.current) return;
+    if (!containerRef.current) return;
 
     const { scrollLeft } = e.currentTarget;
-    const cardWidth = carouselRef.current.children[0]?.getBoundingClientRect().width || 0;
-    const gap = 16; // gap from styles
-    const newIndex = Math.round(scrollLeft / (cardWidth + gap));
+    const card = containerRef.current.children[0]?.getBoundingClientRect().width || 0;
+    const space = 16;
+    const newIndex = Math.round(scrollLeft / (card + space));
 
-    if (newIndex !== currentIndex) {
-      setCurrentIndex(newIndex);
+    if (newIndex !== index) {
+      setIndex(newIndex);
     }
   };
 
@@ -61,20 +61,20 @@ export default function Carousel({
     <S.CarouselContainer className={className}>
       <S.Title>{title}</S.Title>
       <S.CarouselContent
-        ref={carouselRef}
+        ref={containerRef}
         onScroll={handleScroll}
         style={{
           cursor: 'grab',
           userSelect: 'none'
         }}
         onMouseDown={() => {
-          if (carouselRef.current) {
-            carouselRef.current.style.cursor = 'grabbing';
+          if (containerRef.current) {
+            containerRef.current.style.cursor = 'grabbing';
           }
         }}
         onMouseUp={() => {
-          if (carouselRef.current) {
-            carouselRef.current.style.cursor = 'grab';
+          if (containerRef.current) {
+            containerRef.current.style.cursor = 'grab';
           }
         }}
       >
@@ -96,16 +96,16 @@ export default function Carousel({
       {showNavigation && (
         <>
           <S.NavigationButton
-            onClick={handlePrev}
-            disabled={isScrolling}
+            onClick={prev}
+            disabled={isMoving}
             aria-label="Previous movie"
           >
             &lt;
           </S.NavigationButton>
           <S.NavigationButton
             $right
-            onClick={handleNext}
-            disabled={isScrolling}
+            onClick={next}
+            disabled={isMoving}
             aria-label="Next movie"
           >
             &gt;

@@ -6,48 +6,48 @@ import { Movie } from "../types/movie";
 import * as S from '../styles/pages/home';
 
 export default function Home() {
-  const [popularMovies, setPopularMovies] = useState<Movie[]>([]);
-  const [topRatedMovies, setTopRatedMovies] = useState<Movie[]>([]);
-  const [upcomingMovies, setUpcomingMovies] = useState<Movie[]>([]);
-  const [nowPlayingMovies, setNowPlayingMovies] = useState<Movie[]>([]);
+  const [popular, setPopular] = useState<Movie[]>([]);
+  const [topRated, setTopRated] = useState<Movie[]>([]);
+  const [upcoming, setUpcoming] = useState<Movie[]>([]);
+  const [nowPlaying, setNowPlaying] = useState<Movie[]>([]);
 
   useEffect(() => {
-    async function fetchAllMovies() {
+    async function getMovies() {
       try {
-        const [popular, topRated, upcoming, nowPlaying] = await Promise.all([
+        const [popularMovies, topRatedMovies, upcomingMovies, nowPlayingMovies] = await Promise.all([
           getPopularMovies(),
           getTopRatedMovies(),
           getUpcomingMovies(),
           getNowPlayingMovies()
         ]);
 
-        setPopularMovies(popular);
-        setTopRatedMovies(topRated);
-        setUpcomingMovies(upcoming);
-        setNowPlayingMovies(nowPlaying);
+        setPopular(popularMovies);
+        setTopRated(topRatedMovies);
+        setUpcoming(upcomingMovies);
+        setNowPlaying(nowPlayingMovies);
       } catch (error) {
-        console.error("Error fetching movies:", error);
+        console.error("Error getting movies:", error);
       }
     }
-    fetchAllMovies();
+    getMovies();
   }, []);
 
   return (
     <S.Container>
       <Carousel
-        items={popularMovies}
+        items={popular}
         title="Popular Movies"
       />
       <Carousel
-        items={topRatedMovies}
+        items={topRated}
         title="Top Rated Movies"
       />
       <Carousel
-        items={upcomingMovies}
+        items={upcoming}
         title="Upcoming Movies"
       />
       <Carousel
-        items={nowPlayingMovies}
+        items={nowPlaying}
         title="Now Playing Movies"
       />
     </S.Container>
