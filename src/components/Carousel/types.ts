@@ -5,6 +5,7 @@ export interface CarouselProps {
   title: string
   showNavigation?: boolean
   className?: string
+  onItemClick?: (movie: Movie) => void
 }
 
 export type CarouselStyleOptions = {

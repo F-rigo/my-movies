@@ -5,14 +5,13 @@ export default {
     gutter: '3.2rem'
   },
   border: {
-    radius: '0.8rem' // Slightly more rounded corners
+    radius: '0.4rem'
   },
   font: {
-    family:
-      "Poppins, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif",
+    family: "'Open Sans', sans-serif",
     light: 300,
     normal: 400,
-    bold: 600,
+    bold: 700,
     sizes: {
       xsmall: '1.2rem',
       small: '1.4rem',
@@ -23,26 +22,28 @@ export default {
     }
   },
   colors: {
-    primary: '#00E0FF', // Bright cyan as accent color
-    secondary: '#E50914', // Netflix-like red
-    mainBg: '#141414', // Dark background
-    cardBg: '#1F1F1F', // Slightly lighter for cards
+    primary: '#FF0000',
+    secondary: '#E50914',
+    mainBg: '#141414',
+    cardBg: '#1F1F1F',
     lightBg: '#2D2D2D',
     white: '#FFFFFF',
     black: '#000000',
     lightGray: '#7B7B7B',
     gray: '#4D4D4D',
     darkGray: '#292929',
-    textColor: '#E5E5E5' // Light text color
+    textColor: '#E5E5E5',
+    error: '#FF0000'
   },
   spacings: {
-    xxsmall: '0.8rem',
-    xsmall: '1.6rem',
-    small: '2.4rem',
-    medium: '3.2rem',
-    large: '4.0rem',
-    xlarge: '4.8rem',
-    xxlarge: '5.6rem'
+    xsmall: '0.8rem',
+    small: '1.6rem',
+    medium: '2.4rem',
+    large: '3.2rem',
+    xlarge: '4.0rem',
+    xxlarge: '4.8rem',
+    huge: '5.6rem',
+    xhuge: '6.4rem'
   },
   layers: {
     base: 10,
@@ -50,5 +51,8 @@ export default {
     overlay: 30,
     modal: 40,
     alwaysOnTop: 50
+  },
+  media: {
+    lteMedium: '(max-width: 768px)'
   }
 } as const

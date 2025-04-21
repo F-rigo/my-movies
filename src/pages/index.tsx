@@ -1,6 +1,7 @@
 'use client'
-import { useEffect, useState } from "react";
-import { getPopularMovies, getTopRatedMovies, getUpcomingMovies, getNowPlayingMovies } from "../lib/tmdb";
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
+import { getPopularMovies, getTopRatedMovies, getUpcomingMovies } from '../lib/tmdb';
 import Carousel from "../components/Carousel/Carousel";
 import { Movie } from "../types/movie";
 import * as S from '../styles/pages/home';
@@ -9,47 +10,62 @@ export default function Home() {
   const [popular, setPopular] = useState<Movie[]>([]);
   const [topRated, setTopRated] = useState<Movie[]>([]);
   const [upcoming, setUpcoming] = useState<Movie[]>([]);
-  const [nowPlaying, setNowPlaying] = useState<Movie[]>([]);
+  const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
 
   useEffect(() => {
-    async function getMovies() {
+    const fetchMovies = async () => {
       try {
-        const [popularMovies, topRatedMovies, upcomingMovies, nowPlayingMovies] = await Promise.all([
+        const [popularData, topRatedData, upcomingData] = await Promise.all([
           getPopularMovies(),
           getTopRatedMovies(),
-          getUpcomingMovies(),
-          getNowPlayingMovies()
+          getUpcomingMovies()
         ]);
 
-        setPopular(popularMovies);
-        setTopRated(topRatedMovies);
-        setUpcoming(upcomingMovies);
-        setNowPlaying(nowPlayingMovies);
-      } catch (error) {
-        console.error("Error getting movies:", error);
+        setPopular(popularData);
+        setTopRated(topRatedData);
+        setUpcoming(upcomingData);
+      } catch {
+        setError('Failed to fetch movies. Please try again later.');
       }
-    }
-    getMovies();
+    };
+
+    fetchMovies();
   }, []);
 
+  if (error) {
+    return <S.ErrorMessage>{error}</S.ErrorMessage>;
+  }
+
+  const handleMovieClick = (movie: Movie) => {
+    router.push(`/movie/${movie.id}`);
+  };
+
   return (
-    <S.Container>
-      <Carousel
-        items={popular}
-        title="Popular Movies"
-      />
-      <Carousel
-        items={topRated}
-        title="Top Rated Movies"
-      />
-      <Carousel
-        items={upcoming}
-        title="Upcoming Movies"
-      />
-      <Carousel
-        items={nowPlaying}
-        title="Now Playing Movies"
-      />
-    </S.Container>
+    <S.HomeContainer>
+      <S.Section>
+        <Carousel
+          title="Popular Movies"
+          items={popular}
+          onItemClick={handleMovieClick}
+        />
+      </S.Section>
+
+      <S.Section>
+        <Carousel
+          title="Top Rated Movies"
+          items={topRated}
+          onItemClick={handleMovieClick}
+        />
+      </S.Section>
+
+      <S.Section>
+        <Carousel
+          title="Upcoming Movies"
+          items={upcoming}
+          onItemClick={handleMovieClick}
+        />
+      </S.Section>
+    </S.HomeContainer>
   );
 }

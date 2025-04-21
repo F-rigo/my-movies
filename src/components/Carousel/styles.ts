@@ -1,6 +1,4 @@
 // src/components/Carousel/styles.ts
-'use client'
-
 import styled from 'styled-components'
 
 export const CarouselContainer = styled.div`
@@ -15,6 +13,8 @@ export const Title = styled.h2`
   margin-bottom: 1.5rem;
   color: ${({ theme }) => theme.colors.white};
   font-size: ${({ theme }) => theme.font.sizes.xlarge};
+  font-weight: ${({ theme }) => theme.font.bold};
+  padding-left: 2rem;
 `
 
 export const CarouselContent = styled.div`
@@ -35,43 +35,51 @@ export const CarouselContent = styled.div`
 `
 
 export const MovieCard = styled.div`
-  flex: 0 0 18rem;
+  flex: 0 0 20rem;
   scroll-snap-align: start;
   transition: transform 0.3s ease;
   position: relative;
-  width: 18rem;
-  height: 32rem;
+  width: 20rem;
+  height: 35rem;
   display: flex;
   flex-direction: column;
+  background: ${({ theme }) => theme.colors.cardBg};
+  border-radius: ${({ theme }) => theme.border.radius};
+  cursor: pointer;
 
   &:hover {
-    transform: scale(1.03);
+    transform: scale(1.05);
+    z-index: ${({ theme }) => theme.layers.menu};
   }
 `
 
 export const MoviePoster = styled.img`
   width: 100%;
-  height: 24rem;
+  height: 27rem;
   border-radius: ${({ theme }) => theme.border.radius};
   object-fit: cover;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 `
 
 export const MovieInfo = styled.div`
-  padding: 1.5rem 0;
+  padding: 1.2rem;
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
-  height: 8rem;
+  flex: 1;
 `
 
 export const MovieTitle = styled.h3`
   color: ${({ theme }) => theme.colors.white};
   margin: 0;
-  font-size: ${({ theme }) => theme.font.sizes.small};
-  white-space: nowrap;
+  font-size: 1.4rem;
+  font-weight: ${({ theme }) => theme.font.bold};
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
+  line-height: 1.4;
 `
 
 export const MovieRating = styled.span`
@@ -80,7 +88,7 @@ export const MovieRating = styled.span`
   display: flex;
   align-items: center;
   gap: 0.4rem;
-  font-size: ${({ theme }) => theme.font.sizes.small};
+  font-size: 1.2rem;
 
   &::before {
     content: '★';
@@ -99,18 +107,18 @@ export const NavigationButton = styled.button<{ $right?: boolean }>`
   height: 4rem;
   border-radius: 50%;
   cursor: pointer;
-  z-index: 10;
+  z-index: ${({ theme }) => theme.layers.menu};
   display: flex;
   align-items: center;
   justify-content: center;
   opacity: 0.7;
-  transition: opacity 0.3s;
+  transition: all 0.3s;
   font-size: 2rem;
   font-weight: bold;
 
   &:hover {
     opacity: 1;
-    background: rgba(0, 0, 0, 0.9);
+    background: ${({ theme }) => theme.colors.secondary};
   }
 
   &:disabled {

@@ -1,7 +1,24 @@
 import styled from 'styled-components'
 
-export const Container = styled.div`
-  padding: 2rem 0;
-  margin: 0 auto;
-  max-width: ${({ theme }) => theme.grid.container};
+export const HomeContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+  padding: 2rem;
+  padding-top: 6rem;
+  background: ${({ theme }) => theme.colors.mainBg};
+  min-height: 100vh;
+`
+
+export const Section = styled.section`
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+`
+
+export const ErrorMessage = styled.p`
+  color: ${({ theme }) => theme.colors.primary};
+  text-align: center;
+  font-size: ${({ theme }) => theme.font.sizes.medium};
+  padding: 2rem;
 `

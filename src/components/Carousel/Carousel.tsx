@@ -1,5 +1,7 @@
+'use client'
+
 //create a carousel component without importing any library
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { CarouselProps } from './types';
 import * as S from './styles';
 
@@ -7,55 +9,69 @@ export default function Carousel({
   items,
   title,
   showNavigation = true,
-  className
+  className,
+  onItemClick
 }: CarouselProps) {
   const [index, setIndex] = useState(0);
   const [isMoving, setIsMoving] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const next = () => {
-    if (isMoving) return;
-    setIsMoving(true);
-    const nextIndex = (index + 1) % items.length;
-    setIndex(nextIndex);
-    moveToIndex(nextIndex);
-  };
-
-  const prev = () => {
-    if (isMoving) return;
-    setIsMoving(true);
-    const prevIndex = index === 0 ? items.length - 1 : index - 1;
-    setIndex(prevIndex);
-    moveToIndex(prevIndex);
-  };
-
-  const moveToIndex = (newIndex: number) => {
+  const scrollToIndex = (idx: number) => {
     if (!containerRef.current) return;
 
-    const card = containerRef.current.children[0]?.getBoundingClientRect().width || 0;
-    const space = 16;
-    const position = newIndex * (card + space);
+    const itemWidth = containerRef.current.children[0]?.getBoundingClientRect().width || 0;
+    const gap = 16; // gap between items
+    const position = idx * (itemWidth + gap);
 
     containerRef.current.scrollTo({
       left: position,
       behavior: 'smooth'
     });
+  };
 
+  const next = () => {
+    if (isMoving || !items.length) return;
+    setIsMoving(true);
+    const nextIndex = (index + 1) % items.length;
+    setIndex(nextIndex);
+    scrollToIndex(nextIndex);
+    setTimeout(() => setIsMoving(false), 500);
+  };
+
+  const prev = () => {
+    if (isMoving || !items.length) return;
+    setIsMoving(true);
+    const prevIndex = (index - 1 + items.length) % items.length;
+    setIndex(prevIndex);
+    scrollToIndex(prevIndex);
     setTimeout(() => setIsMoving(false), 500);
   };
 
   const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
-    if (!containerRef.current) return;
+    if (isMoving) return;
 
-    const { scrollLeft } = e.currentTarget;
-    const card = containerRef.current.children[0]?.getBoundingClientRect().width || 0;
-    const space = 16;
-    const newIndex = Math.round(scrollLeft / (card + space));
+    const container = e.currentTarget;
+    const scrollLeft = container.scrollLeft;
+    const itemWidth = container.children[0]?.getBoundingClientRect().width || 0;
+    const gap = 16;
+    const newIndex = Math.round(scrollLeft / (itemWidth + gap));
 
     if (newIndex !== index) {
       setIndex(newIndex);
     }
   };
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const handleScrollEnd = () => {
+      setIsMoving(false);
+    };
+
+    container.addEventListener('scrollend', handleScrollEnd);
+    return () => container.removeEventListener('scrollend', handleScrollEnd);
+  }, []);
 
   return (
     <S.CarouselContainer className={className}>
@@ -63,50 +79,36 @@ export default function Carousel({
       <S.CarouselContent
         ref={containerRef}
         onScroll={handleScroll}
-        style={{
-          cursor: 'grab',
-          userSelect: 'none'
-        }}
-        onMouseDown={() => {
-          if (containerRef.current) {
-            containerRef.current.style.cursor = 'grabbing';
-          }
-        }}
-        onMouseUp={() => {
-          if (containerRef.current) {
-            containerRef.current.style.cursor = 'grab';
-          }
-        }}
       >
-        {items.map((movie) => (
-          <S.MovieCard key={movie.id}>
+        {items.map((item) => (
+          <S.MovieCard
+            key={item.id}
+            onClick={() => onItemClick?.(item)}
+          >
             <S.MoviePoster
-              src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-              alt={movie.title}
+              src={`https://image.tmdb.org/t/p/w500${item.poster_path}`}
+              alt={item.title}
             />
             <S.MovieInfo>
-              <S.MovieTitle>{movie.title}</S.MovieTitle>
-              <S.MovieRating>
-                {movie.vote_average.toFixed(1)}
-              </S.MovieRating>
+              <S.MovieTitle>{item.title}</S.MovieTitle>
+              <S.MovieRating>{item.vote_average.toFixed(1)}</S.MovieRating>
             </S.MovieInfo>
           </S.MovieCard>
         ))}
       </S.CarouselContent>
-      {showNavigation && (
+      {showNavigation && items.length > 0 && (
         <>
           <S.NavigationButton
             onClick={prev}
-            disabled={isMoving}
-            aria-label="Previous movie"
+            $right={false}
+            disabled={isMoving || index === 0}
           >
             &lt;
           </S.NavigationButton>
           <S.NavigationButton
-            $right
             onClick={next}
-            disabled={isMoving}
-            aria-label="Next movie"
+            $right={true}
+            disabled={isMoving || index === items.length - 1}
           >
             &gt;
           </S.NavigationButton>
