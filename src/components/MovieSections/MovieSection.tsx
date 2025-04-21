@@ -1,5 +1,5 @@
-import { Movie } from '@/components/Carousel/types'
-import MovieCarousel from '@/components/Carousel'
+import { Movie } from '../../types/movie'
+import MovieCarousel from '../Carousel/Carousel'
 
 export default async function MovieSection({
   title,

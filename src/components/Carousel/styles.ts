@@ -8,6 +8,7 @@ export const CarouselContainer = styled.div`
   padding: 2rem 0;
   margin: 0 auto;
   max-width: ${({ theme }) => theme.grid.container};
+  width: 100%;
 `
 
 export const Title = styled.h2`
@@ -20,11 +21,12 @@ export const CarouselContent = styled.div`
   display: flex;
   gap: 1.6rem;
   overflow-x: auto;
-  padding: 1rem 0;
+  padding: 1rem 5rem;
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
   -ms-overflow-style: none;
   scrollbar-width: none;
+  position: relative;
   width: 100%;
 
   &::-webkit-scrollbar {
@@ -37,7 +39,10 @@ export const MovieCard = styled.div`
   scroll-snap-align: start;
   transition: transform 0.3s ease;
   position: relative;
-  min-width: 18rem;
+  width: 18rem;
+  height: 32rem;
+  display: flex;
+  flex-direction: column;
 
   &:hover {
     transform: scale(1.03);
@@ -46,25 +51,22 @@ export const MovieCard = styled.div`
 
 export const MoviePoster = styled.img`
   width: 100%;
+  height: 24rem;
   border-radius: ${({ theme }) => theme.border.radius};
-  aspect-ratio: 2/3;
   object-fit: cover;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 `
 
 export const MovieInfo = styled.div`
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 1rem;
-  background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
-  border-bottom-left-radius: ${({ theme }) => theme.border.radius};
-  border-bottom-right-radius: ${({ theme }) => theme.border.radius};
+  padding: 1.5rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  height: 8rem;
 `
 
 export const MovieTitle = styled.h3`
-  color: white;
+  color: ${({ theme }) => theme.colors.white};
   margin: 0;
   font-size: ${({ theme }) => theme.font.sizes.small};
   white-space: nowrap;
@@ -73,8 +75,17 @@ export const MovieTitle = styled.h3`
 `
 
 export const MovieRating = styled.span`
-  color: ${({ theme }) => theme.colors.primary};
+  color: #FFD700;
   font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: ${({ theme }) => theme.font.sizes.small};
+
+  &::before {
+    content: '★';
+    color: #FFD700;
+  }
 `
 
 export const NavigationButton = styled.button<{ $right?: boolean }>`
@@ -94,35 +105,24 @@ export const NavigationButton = styled.button<{ $right?: boolean }>`
   justify-content: center;
   opacity: 0.7;
   transition: opacity 0.3s;
+  font-size: 2rem;
+  font-weight: bold;
 
   &:hover {
     opacity: 1;
+    background: rgba(0, 0, 0, 0.9);
   }
 
-  ${({ $right }) => $right ? 'right: -2rem;' : 'left: -2rem;'}
+  &:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+
+  ${({ $right }) => $right ? 'right: 1rem;' : 'left: 1rem;'}
 
   @media (max-width: 768px) {
-    display: none;
-  }
-`
-
-export const Pagination = styled.div`
-  display: flex;
-  justify-content: center;
-  gap: 0.5rem;
-  margin-top: 1rem;
-`
-
-export const PaginationDot = styled.button<{ $active?: boolean }>`
-  width: 0.8rem;
-  height: 0.8rem;
-  border-radius: 50%;
-  border: none;
-  background: ${({ $active, theme }) => $active ? theme.colors.primary : 'rgba(255, 255, 255, 0.3)'};
-  cursor: pointer;
-  transition: background 0.3s;
-
-  &:hover {
-    background: ${({ theme }) => theme.colors.primary};
+    width: 3rem;
+    height: 3rem;
+    font-size: 1.5rem;
   }
 `

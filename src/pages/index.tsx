@@ -1,30 +1,55 @@
 'use client'
 import { useEffect, useState } from "react";
-import { getPopularMovies, Movie } from "../lib/tmdb";
-import Carousel from "@/components/Carousel/Carousel";
-
+import { getPopularMovies, getTopRatedMovies, getUpcomingMovies, getNowPlayingMovies } from "../lib/tmdb";
+import Carousel from "../components/Carousel/Carousel";
+import { Movie } from "../types/movie";
+import * as S from '../styles/pages/home';
 
 export default function Home() {
-  const [movies, setMovies] = useState<Movie[]>([]);
+  const [popularMovies, setPopularMovies] = useState<Movie[]>([]);
+  const [topRatedMovies, setTopRatedMovies] = useState<Movie[]>([]);
+  const [upcomingMovies, setUpcomingMovies] = useState<Movie[]>([]);
+  const [nowPlayingMovies, setNowPlayingMovies] = useState<Movie[]>([]);
 
   useEffect(() => {
-    async function fetchMovies() {
+    async function fetchAllMovies() {
       try {
-        const data = await getPopularMovies();
-        setMovies(data);
+        const [popular, topRated, upcoming, nowPlaying] = await Promise.all([
+          getPopularMovies(),
+          getTopRatedMovies(),
+          getUpcomingMovies(),
+          getNowPlayingMovies()
+        ]);
+
+        setPopularMovies(popular);
+        setTopRatedMovies(topRated);
+        setUpcomingMovies(upcoming);
+        setNowPlayingMovies(nowPlaying);
       } catch (error) {
         console.error("Error fetching movies:", error);
       }
     }
-    fetchMovies();
+    fetchAllMovies();
   }, []);
 
   return (
-    <div>
+    <S.Container>
       <Carousel
-        items={movies.map((movie) => movie.title)}
+        items={popularMovies}
         title="Popular Movies"
       />
-    </div>
+      <Carousel
+        items={topRatedMovies}
+        title="Top Rated Movies"
+      />
+      <Carousel
+        items={upcomingMovies}
+        title="Upcoming Movies"
+      />
+      <Carousel
+        items={nowPlayingMovies}
+        title="Now Playing Movies"
+      />
+    </S.Container>
   );
 }
