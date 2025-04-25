@@ -17,17 +17,17 @@ async function fetchTMDB(endpoint: string): Promise<Movie[]> {
 }
 
 export async function getPopularMovies(): Promise<Movie[]> {
-  return fetchTMDB('/movie/popular?language=pt-BR&page=1')
+  return fetchTMDB('/movie/popular?language=en-US&page=1')
 }
 
 export async function getTopRatedMovies(): Promise<Movie[]> {
-  return fetchTMDB('/movie/top_rated?language=pt-BR&page=1')
+  return fetchTMDB('/movie/top_rated?language=en-US&page=1')
 }
 
 export async function getUpcomingMovies(): Promise<Movie[]> {
-  return fetchTMDB('/movie/upcoming?language=pt-BR&page=1')
+  return fetchTMDB('/movie/upcoming?language=en-US&page=1')
 }
 
 export async function getNowPlayingMovies(): Promise<Movie[]> {
-  return fetchTMDB('/movie/now_playing?language=pt-BR&page=1')
+  return fetchTMDB('/movie/now_playing?language=en-US&page=1')
 }

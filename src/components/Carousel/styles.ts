@@ -35,21 +35,22 @@ export const CarouselContent = styled.div`
 `
 
 export const MovieCard = styled.div`
-  flex: 0 0 20rem;
-  scroll-snap-align: start;
-  transition: transform 0.3s ease;
-  position: relative;
-  width: 20rem;
-  height: 35rem;
-  display: flex;
-  flex-direction: column;
-  background: ${({ theme }) => theme.colors.cardBg};
-  border-radius: ${({ theme }) => theme.border.radius};
+  flex: 0 0 auto;
+  width: 200px;
   cursor: pointer;
+  transition: transform 0.3s ease;
 
   &:hover {
     transform: scale(1.05);
-    z-index: ${({ theme }) => theme.layers.menu};
+  }
+
+  img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 8px;
+    padding: 4px;
+    background-color: ${({ theme }) => theme.colors.mainBg};
   }
 `
 
