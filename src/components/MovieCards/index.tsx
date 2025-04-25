@@ -2,6 +2,7 @@
 'use client';
 
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import * as S from './styles';
 
 export type MovieCardProps = {
@@ -12,7 +13,13 @@ export type MovieCardProps = {
   release_date?: string;
 }
 
-const MovieCard = ({ title, poster_path, vote_average, release_date }: MovieCardProps) => {
+const MovieCard = ({ id, title, poster_path, vote_average, release_date }: MovieCardProps) => {
+  const router = useRouter();
+
+  const handleClick = () => {
+    router.push(`/movie/${id}`);
+  };
+
   const imageUrl = poster_path
     ? `https://image.tmdb.org/t/p/w342${poster_path}`
     : '/placeholder.png'; // Create a placeholder image
@@ -29,7 +36,7 @@ const MovieCard = ({ title, poster_path, vote_average, release_date }: MovieCard
   };
 
   return (
-    <S.Wrapper>
+    <S.Wrapper onClick={handleClick} role="button" tabIndex={0}>
       <S.ImageWrapper>
         <Image
           src={imageUrl}
