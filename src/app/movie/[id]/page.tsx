@@ -31,31 +31,46 @@ export default function MoviePage() {
 
   const [movie, setMovie] = useState<Movie | null>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<{ title: string; message: string } | null>(null);
 
   useEffect(() => {
     const fetchMovie = async () => {
       try {
         if (!id) {
-          throw new Error('Movie ID is required');
+          setError({
+            title: 'Invalid Movie ID',
+            message: 'The movie ID is invalid or missing.'
+          });
+          return;
         }
 
         const response = await fetch(`/api/movie/${id}`);
 
         if (!response.ok) {
-          throw new Error('Service temporarily unavailable');
+          setError({
+            title: 'Service Unavailable',
+            message: 'The service is temporarily unavailable. Please try again later.'
+          });
+          return;
         }
 
         const data = await response.json();
 
         if (!data || !data.id) {
-          throw new Error('Service temporarily unavailable');
+          setError({
+            title: 'Movie Not Found',
+            message: 'The movie you are looking for could not be found.'
+          });
+          return;
         }
 
         setMovie(data);
       } catch (err) {
         console.error('Error fetching movie:', err);
-        setError('Service temporarily unavailable');
+        setError({
+          title: 'Service Unavailable',
+          message: 'The service is temporarily unavailable. Please try again later.'
+        });
       } finally {
         setLoading(false);
       }
@@ -67,8 +82,8 @@ export default function MoviePage() {
   }, [id]);
 
   if (loading) return <S.Loading>Loading...</S.Loading>;
-  if (error) return <ErrorScreen title="Error Loading Movie" message="Service temporarily unavailable" />;
-  if (!movie) return <ErrorScreen title="Movie Not Found" message="The movie you're looking for could not be found." />;
+  if (error) return <ErrorScreen title={error.title} message={error.message} />;
+  if (!movie) return <ErrorScreen title="Movie Not Found" message="The movie you are looking for could not be found." />;
 
   return (
     <S.Container>
