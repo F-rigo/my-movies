@@ -1,18 +1,18 @@
 import { NextResponse } from 'next/server';
 
-const TMDB_API_KEY = process.env.TMDB_API_KEY;
+const TMDB_API_KEY = process.env.NEXT_PUBLIC_TMDB_API_KEY;
 const TMDB_BASE_URL = 'https://api.themoviedb.org/3';
 
 if (!TMDB_API_KEY) {
-  console.error('TMDB_API_KEY is not defined in environment variables');
+  console.error('NEXT_PUBLIC_TMDB_API_KEY is not defined in environment variables');
 }
 
 export async function GET(request: Request) {
   try {
     if (!TMDB_API_KEY) {
-      console.error('TMDB_API_KEY is missing');
+      console.error('NEXT_PUBLIC_TMDB_API_KEY is missing');
       return NextResponse.json(
-        { error: 'TMDB API key is not configured' },
+        { error: 'Service temporarily unavailable' },
         { status: 500 }
       );
     }
@@ -45,8 +45,8 @@ export async function GET(request: Request) {
       });
 
       return NextResponse.json(
-        { error: 'Failed to fetch movie details' },
-        { status: response.status }
+        { error: 'Service temporarily unavailable' },
+        { status: 500 }
       );
     }
 
@@ -55,7 +55,7 @@ export async function GET(request: Request) {
   } catch (error) {
     console.error('Error fetching movie:', error);
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { error: 'Service temporarily unavailable' },
       { status: 500 }
     );
   }
