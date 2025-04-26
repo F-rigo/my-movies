@@ -42,22 +42,19 @@ export default function MoviePage() {
         const response = await fetch(`/api/movie/${id}`);
 
         if (!response.ok) {
-          const errorData = await response.json().catch(() => ({}));
-          throw new Error(
-            `Failed to fetch movie: ${response.status} ${response.statusText}. ${errorData.error || ''}`
-          );
+          throw new Error('Service temporarily unavailable');
         }
 
         const data = await response.json();
 
         if (!data || !data.id) {
-          throw new Error('Invalid movie data received');
+          throw new Error('Service temporarily unavailable');
         }
 
         setMovie(data);
       } catch (err) {
         console.error('Error fetching movie:', err);
-        setError(err instanceof Error ? err.message : 'An error occurred while fetching the movie');
+        setError('Service temporarily unavailable');
       } finally {
         setLoading(false);
       }
@@ -69,7 +66,7 @@ export default function MoviePage() {
   }, [id]);
 
   if (loading) return <S.Loading>Loading...</S.Loading>;
-  if (error) return <S.Error>Error: {error}</S.Error>;
+  if (error) return <S.Error>Service temporarily unavailable</S.Error>;
   if (!movie) return <S.Error>Movie not found</S.Error>;
 
   return (
