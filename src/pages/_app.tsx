@@ -4,9 +4,8 @@ import { ThemeProvider } from 'styled-components'
 
 import Header from '../components/Header'
 import MainLayout from '../components/Layout/MainLayout'
-import GlobalStyles from '../styles/global'
 import theme from '../styles/theme'
-
+import GlobalStyles from '../styles/global'
 function App({ Component, pageProps }: AppProps) {
   return (
     <ThemeProvider theme={theme}>
