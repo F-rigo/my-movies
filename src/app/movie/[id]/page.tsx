@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import MovieDetails from '@/components/MovieDetails';
+import { ErrorScreen } from '@/components/ErrorScreen';
 import * as S from './styles';
 
 interface Movie {
@@ -66,8 +67,8 @@ export default function MoviePage() {
   }, [id]);
 
   if (loading) return <S.Loading>Loading...</S.Loading>;
-  if (error) return <S.Error>Service temporarily unavailable</S.Error>;
-  if (!movie) return <S.Error>Movie not found</S.Error>;
+  if (error) return <ErrorScreen title="Error Loading Movie" message="Service temporarily unavailable" />;
+  if (!movie) return <ErrorScreen title="Movie Not Found" message="The movie you're looking for could not be found." />;
 
   return (
     <S.Container>
