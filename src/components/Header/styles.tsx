@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 export const Wrapper = styled.header`
-  background: ${({ theme }) => theme.colors.mainBg};
+  background: ${({ theme }) => theme.colors.primary[900]};
   padding: ${({ theme }) => theme.spacings.medium};
   position: fixed;
   top: 0;
@@ -11,12 +11,12 @@ export const Wrapper = styled.header`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid ${({ theme }) => theme.colors.darkGray};
+  border-bottom: 1px solid ${({ theme }) => theme.colors.grey[700]};
 `
 
 export const Logo = styled.div`
   a {
-    color: ${({ theme }) => theme.colors.white};
+    color: ${({ theme }) => theme.colors.white[100]};
     font-size: ${({ theme }) => theme.font.sizes.xlarge};
     font-weight: ${({ theme }) => theme.font.bold};
     text-decoration: none;
@@ -33,7 +33,7 @@ export const Nav = styled.nav`
   gap: ${({ theme }) => theme.spacings.medium};
 
   a {
-    color: ${({ theme }) => theme.colors.white};
+    color: ${({ theme }) => theme.colors.white[100]};
     font-size: ${({ theme }) => theme.font.sizes.medium};
     text-decoration: none;
     transition: color 0.3s ease;
@@ -41,8 +41,8 @@ export const Nav = styled.nav`
     border-radius: ${({ theme }) => theme.border.radius};
 
     &:hover {
-      color: ${({ theme }) => theme.colors.primary};
-      background: ${({ theme }) => theme.colors.darkGray};
+      color: ${({ theme }) => theme.colors.primary[500]};
+      background: ${({ theme }) => theme.colors.grey[700]};
     }
   }
 `

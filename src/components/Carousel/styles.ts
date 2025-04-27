@@ -11,7 +11,7 @@ export const CarouselContainer = styled.div`
 
 export const Title = styled.h2`
   margin-bottom: 1.5rem;
-  color: ${({ theme }) => theme.colors.white};
+  color: ${({ theme }) => theme.colors.white[100]};
   font-size: ${({ theme }) => theme.font.sizes.xlarge};
   font-weight: ${({ theme }) => theme.font.bold};
   padding-left: 2rem;
@@ -71,7 +71,7 @@ export const MovieInfo = styled.div`
 `
 
 export const MovieTitle = styled.h3`
-  color: ${({ theme }) => theme.colors.white};
+  color: ${({ theme }) => theme.colors.white[100]};
   margin: 0;
   font-size: 1.4rem;
   font-weight: ${({ theme }) => theme.font.bold};

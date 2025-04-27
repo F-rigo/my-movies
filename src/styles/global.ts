@@ -24,8 +24,8 @@ const GlobalStyle = createGlobalStyle`
 
   body {
     font-family: ${({ theme }) => theme.font.family};
-    background-color: ${({ theme }) => theme.colors.mainBg};
-    color: ${({ theme }) => theme.colors.textColor};
+    background-color: ${({ theme }) => theme.colors.primary[900]};
+    color: ${({ theme }) => theme.colors.white[100]};
     line-height: 1.5;
   }
 
