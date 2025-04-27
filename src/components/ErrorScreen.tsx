@@ -1,22 +1,10 @@
+'use client';
+
 import styled from 'styled-components';
 
 interface ErrorScreenProps {
   title?: string;
   message?: string;
-}
-
-export function ErrorScreen({
-  title = 'Oops! Something went wrong',
-  message = 'We encountered an error while processing your request. Please try again later.',
-}: ErrorScreenProps) {
-  return (
-    <Container>
-      <Content>
-        <Title>{title}</Title>
-        <Message>{message}</Message>
-      </Content>
-    </Container>
-  );
 }
 
 const Container = styled.div`
@@ -46,3 +34,17 @@ const Message = styled.p`
   color: #7B7B7B;
   line-height: 1.5;
 `;
+
+export function ErrorScreen({
+  title = 'Oops! Something went wrong',
+  message = 'We encountered an error while processing your request. Please try again later.',
+}: ErrorScreenProps) {
+  return (
+    <Container>
+      <Content>
+        <Title>{title}</Title>
+        <Message>{message}</Message>
+      </Content>
+    </Container>
+  );
+}
