@@ -8,15 +8,17 @@ export const Wrapper = styled.div`
   color: ${({ theme }) => theme.colors.white[100]};
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 `;
 
 export const Main = styled.main`
   flex: 1;
-  padding-top: 8rem;
-  padding-bottom: 2rem;
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
+  padding: 2rem;
+  padding-top: 8rem;
+  overflow: hidden;
 `;

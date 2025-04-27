@@ -1,20 +1,58 @@
 // src/components/Carousel/styles.ts
 import styled from 'styled-components'
 
+export const Wrapper = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: ${({ theme }) => theme.spacings.medium};
+`
+
+export const Title = styled.h2`
+  font-size: ${({ theme }) => theme.font.sizes.xlarge};
+  font-weight: ${({ theme }) => theme.font.bold};
+  color: ${({ theme }) => theme.colors.white[100]};
+`
+
+export const Content = styled.div`
+  width: 100%;
+  overflow-x: auto;
+  padding-bottom: 1rem;
+
+  &::-webkit-scrollbar {
+    height: 0;
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: transparent;
+  }
+
+  /* Para Firefox */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+`
+
+export const List = styled.div`
+  display: flex;
+  gap: ${({ theme }) => theme.spacings.medium};
+  width: fit-content;
+`
+
 export const CarouselContainer = styled.div`
   position: relative;
   padding: 2rem 0;
   margin: 0 auto;
   max-width: ${({ theme }) => theme.grid.container};
   width: 100%;
-`
-
-export const Title = styled.h2`
-  margin-bottom: 1.5rem;
-  color: ${({ theme }) => theme.colors.white[100]};
-  font-size: ${({ theme }) => theme.font.sizes.xlarge};
-  font-weight: ${({ theme }) => theme.font.bold};
-  padding-left: 2rem;
 `
 
 export const CarouselContent = styled.div`
@@ -50,7 +88,7 @@ export const MovieCard = styled.div`
     object-fit: cover;
     border-radius: 8px;
     padding: 4px;
-    background-color: ${({ theme }) => theme.colors.mainBg};
+    background-color: ${({ theme }) => theme.colors.primary[900]};
   }
 `
 

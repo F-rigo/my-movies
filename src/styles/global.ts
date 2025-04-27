@@ -10,12 +10,21 @@ import { createGlobalStyle } from 'styled-components'
  * - Add responsive typography
  */
 const GlobalStyle = createGlobalStyle`
+  :root {
+    --background-color: #0f172a;
+    --text-color: #f8fafc;
+  }
+
   * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+  }
+
+  html, body {
+    height: 100%;
   }
 
   html {
