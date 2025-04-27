@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import { useState } from 'react';
 import * as S from './styles';
+import { useRouter } from 'next/navigation';
 
 interface MovieDetailsProps {
   movie: {
@@ -13,6 +14,14 @@ interface MovieDetailsProps {
     backdrop_path: string;
     release_date: string;
     vote_average: number;
+    videos?: {
+      results: Array<{
+        key: string;
+        name: string;
+        site: string;
+        type: string;
+      }>;
+    };
   };
 }
 
@@ -25,7 +34,8 @@ interface MovieDetailsProps {
  * - Add loading state for images
  * - Add error handling for image loading
  */
-const MovieDetails = ({ movie }: MovieDetailsProps) => {
+const MovieDetails: React.FC<MovieDetailsProps> = ({ movie }) => {
+  const router = useRouter();
   const [isFavorite, setIsFavorite] = useState(false);
 
   const handleFavoriteClick = () => {
@@ -57,15 +67,20 @@ const MovieDetails = ({ movie }: MovieDetailsProps) => {
       </S.Backdrop>
 
       <S.Content>
-        <S.Poster>
-          <Image
-            src={imageUrl}
-            alt={`${movie.title} poster`}
-            width={300}
-            height={450}
-            style={{ objectFit: 'cover' }}
-          />
-        </S.Poster>
+        <S.LeftColumn>
+          <S.BackButton onClick={() => router.back()}>
+            ← Voltar
+          </S.BackButton>
+          <S.Poster>
+            <Image
+              src={imageUrl}
+              alt={`${movie.title} poster`}
+              width={300}
+              height={450}
+              style={{ objectFit: 'cover' }}
+            />
+          </S.Poster>
+        </S.LeftColumn>
 
         <S.Details>
           <S.Title>{movie.title}</S.Title>
@@ -77,7 +92,7 @@ const MovieDetails = ({ movie }: MovieDetailsProps) => {
           </S.Rating>
 
           <S.Synopsis>
-            <S.SynopsisTitle>Synopsis</S.SynopsisTitle>
+            <S.SynopsisTitle>Plot</S.SynopsisTitle>
             <S.SynopsisText>{movie.overview}</S.SynopsisText>
           </S.Synopsis>
 
@@ -87,6 +102,25 @@ const MovieDetails = ({ movie }: MovieDetailsProps) => {
           >
             {isFavorite ? 'Remove from Favorites' : 'Add to Favorites'}
           </S.FavoriteButton>
+
+          {movie.videos?.results.find(video => video.type === 'Trailer') && (
+            <>
+              <S.TrailerTitle>Trailer</S.TrailerTitle>
+              <S.Trailer>
+                <S.TrailerContainer>
+                  <iframe
+                    width="100%"
+                    height="315"
+                    src={`https://www.youtube.com/embed/${movie.videos.results.find(video => video.type === 'Trailer')?.key}`}
+                    title="Movie Trailer"
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
+                </S.TrailerContainer>
+              </S.Trailer>
+            </>
+          )}
         </S.Details>
       </S.Content>
     </S.Wrapper>

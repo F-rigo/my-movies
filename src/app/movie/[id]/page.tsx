@@ -14,6 +14,14 @@ interface Movie {
   backdrop_path: string;
   release_date: string;
   vote_average: number;
+  videos?: {
+    results: Array<{
+      key: string;
+      name: string;
+      site: string;
+      type: string;
+    }>;
+  };
 }
 
 /**
@@ -44,41 +52,37 @@ export default function MoviePage() {
           return;
         }
 
-        const response = await fetch(`/api/movie/${id}`);
+        const [movieResponse, videosResponse] = await Promise.all([
+          fetch(`/api/movie/${id}`),
+          fetch(`/api/movie/${id}/videos`)
+        ]);
 
-        if (!response.ok) {
+        if (!movieResponse.ok || !videosResponse.ok) {
           setError({
-            title: 'Service Unavailable',
-            message: 'The service is temporarily unavailable. Please try again later.'
+            title: 'Error',
+            message: 'Failed to fetch movie data.'
           });
           return;
         }
 
-        const data = await response.json();
+        const movieData = await movieResponse.json();
+        const videosData = await videosResponse.json();
 
-        if (!data || !data.id) {
-          setError({
-            title: 'Movie Not Found',
-            message: 'The movie you are looking for could not be found.'
-          });
-          return;
-        }
-
-        setMovie(data);
-      } catch (err) {
-        console.error('Error fetching movie:', err);
-        setError({
-          title: 'Service Unavailable',
-          message: 'The service is temporarily unavailable. Please try again later.'
+        setMovie({
+          ...movieData,
+          videos: videosData
         });
-      } finally {
+        setLoading(false);
+      } catch (err) {
+        setError({
+          title: 'Error',
+          message: 'An unexpected error occurred.'
+        });
         setLoading(false);
       }
     };
 
-    if (id) {
-      fetchMovie();
-    }
+    fetchMovie();
   }, [id]);
 
   if (loading) return <S.Loading>Loading...</S.Loading>;
