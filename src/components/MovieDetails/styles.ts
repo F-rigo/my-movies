@@ -5,8 +5,15 @@ export const Wrapper = styled.div`
   min-height: 100vh;
   width: 100%;
   margin: 0;
-  padding: 0;
-  padding-top: 6rem;
+  padding-top: 7rem;
+
+  @media (max-width: 1024px) {
+    padding-top: 5rem;
+  }
+
+  @media (max-width: 600px) {
+    padding-top: 4rem;
+  }
 `;
 
 export const Backdrop = styled.div`
@@ -165,7 +172,10 @@ export const LeftColumn = styled.div`
 `;
 
 export const BackButton = styled.button`
-  margin-bottom: 2rem;
+  position: fixed;
+  top: 2rem;
+  left: 2rem;
+  z-index: 100;
   padding: 0.8rem 1.5rem;
   border-radius: 4px;
   font-size: 1.2rem;
@@ -178,7 +188,7 @@ export const BackButton = styled.button`
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  z-index: 10;
+  margin-bottom: 2.5rem;
 
   &:hover {
     background: rgba(255, 255, 255, 0.2);
@@ -186,7 +196,9 @@ export const BackButton = styled.button`
 
   @media (max-width: 768px) {
     font-size: 1.1rem;
-    margin-bottom: 1rem;
+    top: 1rem;
+    left: 1rem;
+    margin-bottom: 1.5rem;
   }
 `;
 

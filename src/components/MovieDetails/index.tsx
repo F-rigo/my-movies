@@ -54,76 +54,78 @@ const MovieDetails: React.FC<MovieDetailsProps> = ({ movie }) => {
   const releaseYear = new Date(movie.release_date).getFullYear();
 
   return (
-    <S.Wrapper>
-      <S.Backdrop>
-        <Image
-          src={backdropUrl}
-          alt={`${movie.title} backdrop`}
-          fill
-          style={{ objectFit: 'cover' }}
-          priority
-        />
-        <S.BackdropOverlay />
-      </S.Backdrop>
+    <>
+      <S.BackButton onClick={() => router.back()}>
+        ← Voltar
+      </S.BackButton>
+      <S.Wrapper>
+        <S.Backdrop>
+          <Image
+            src={backdropUrl}
+            alt={`${movie.title} backdrop`}
+            fill
+            style={{ objectFit: 'cover' }}
+            priority
+          />
+          <S.BackdropOverlay />
+        </S.Backdrop>
 
-      <S.Content>
-        <S.LeftColumn>
-          <S.BackButton onClick={() => router.back()}>
-            ← Voltar
-          </S.BackButton>
-          <S.Poster>
-            <Image
-              src={imageUrl}
-              alt={`${movie.title} poster`}
-              width={300}
-              height={450}
-              style={{ objectFit: 'cover' }}
-            />
-          </S.Poster>
-        </S.LeftColumn>
+        <S.Content>
+          <S.LeftColumn>
+            <S.Poster>
+              <Image
+                src={imageUrl}
+                alt={`${movie.title} poster`}
+                width={300}
+                height={450}
+                style={{ objectFit: 'cover' }}
+              />
+            </S.Poster>
+          </S.LeftColumn>
 
-        <S.Details>
-          <S.Title>{movie.title}</S.Title>
-          <S.Year>{releaseYear}</S.Year>
+          <S.Details>
+            <S.Title>{movie.title}</S.Title>
+            <S.Year>{releaseYear}</S.Year>
 
-          <S.Rating>
-            <S.RatingValue>{movie.vote_average.toFixed(1)}</S.RatingValue>
-            <S.RatingLabel>Rating</S.RatingLabel>
-          </S.Rating>
+            <S.Rating>
+              <S.RatingValue>{movie.vote_average.toFixed(1)}</S.RatingValue>
+              <S.RatingLabel>Rating</S.RatingLabel>
+            </S.Rating>
 
-          <S.Synopsis>
-            <S.SynopsisTitle>Plot</S.SynopsisTitle>
-            <S.SynopsisText>{movie.overview}</S.SynopsisText>
-          </S.Synopsis>
+            <S.Synopsis>
+              <S.SynopsisTitle>Plot</S.SynopsisTitle>
+              <S.SynopsisText>{movie.overview}</S.SynopsisText>
+            </S.Synopsis>
 
-          <S.FavoriteButton
-            onClick={handleFavoriteClick}
-            isFavorite={isFavorite}
-          >
-            {isFavorite ? 'Remove from Favorites' : 'Add to Favorites'}
-          </S.FavoriteButton>
+            <S.FavoriteButton
+              onClick={handleFavoriteClick}
+              isFavorite={isFavorite}
+            >
+              {isFavorite ? 'Remove from Favorites' : 'Add to Favorites'}
+            </S.FavoriteButton>
 
-          {movie.videos?.results.find(video => video.type === 'Trailer') && (
-            <>
-              <S.TrailerTitle>Trailer</S.TrailerTitle>
-              <S.Trailer>
-                <S.TrailerContainer>
-                  <iframe
-                    width="100%"
-                    height="315"
-                    src={`https://www.youtube.com/embed/${movie.videos.results.find(video => video.type === 'Trailer')?.key}`}
-                    title="Movie Trailer"
-                    frameBorder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                  />
-                </S.TrailerContainer>
-              </S.Trailer>
-            </>
-          )}
-        </S.Details>
-      </S.Content>
-    </S.Wrapper>
+            {movie.videos?.results.find(video => video.type === 'Trailer') && (
+              <>
+                <S.TrailerTitle>Trailer</S.TrailerTitle>
+                <S.Trailer>
+                  <S.TrailerContainer>
+                    <iframe
+                      width="100%"
+                      height="315"
+                      src={`https://www.youtube.com/embed/${movie.videos.results.find(video => video.type === 'Trailer')?.key}`}
+                      title="Movie Trailer"
+                      frameBorder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    />
+                  </S.TrailerContainer>
+                </S.Trailer>
+              </>
+            )}
+          </S.Details>
+        </S.Content>
+      </S.Wrapper>
+    </>
   );
 };
 
