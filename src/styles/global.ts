@@ -14,6 +14,8 @@ const GlobalStyle = createGlobalStyle`
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   html {
@@ -21,19 +23,31 @@ const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
-      Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    background-color: #0f0f0f;
-    color: #fff;
+    font-family: ${({ theme }) => theme.font.family};
+    background-color: ${({ theme }) => theme.colors.mainBg};
+    color: ${({ theme }) => theme.colors.textColor};
+    line-height: 1.5;
   }
 
   button {
     cursor: pointer;
+    border: none;
+    background: none;
   }
 
   a {
     text-decoration: none;
     color: inherit;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  ul, ol {
+    list-style: none;
   }
 `
 
