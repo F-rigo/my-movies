@@ -269,6 +269,7 @@ export default {
     alwaysOnTop: 50
   },
   media: {
-    lteMedium: '(max-width: 768px)'
+    lteMedium: '(max-width: 768px)',
+    lteLarge: '(max-width: 1024px)'
   }
 } as const

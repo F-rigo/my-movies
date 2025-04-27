@@ -148,6 +148,7 @@ declare module 'styled-components' {
     };
     media: {
       lteMedium: string;
+      lteLarge: string;
     };
   }
 }
