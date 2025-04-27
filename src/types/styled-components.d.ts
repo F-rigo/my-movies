@@ -24,19 +24,110 @@ declare module 'styled-components' {
       };
     };
     colors: {
-      mainbg: string;
-      primary: string;
-      secondary: string;
-      mainBg: string;
-      cardBg: string;
-      lightBg: string;
-      white: string;
-      black: string;
-      lightGray: string;
-      gray: string;
-      darkGray: string;
-      textColor: string;
-      error: string;
+      primary: {
+        900: string;
+        800: string;
+        700: string;
+        600: string;
+        500: string;
+        400: string;
+        300: string;
+        200: string;
+        100: string;
+        50: string;
+      };
+      success: {
+        900: string;
+        800: string;
+        700: string;
+        600: string;
+        500: string;
+        400: string;
+        300: string;
+        200: string;
+        100: string;
+        50: string;
+      };
+      secondary: {
+        900: string;
+        800: string;
+        700: string;
+        600: string;
+        500: string;
+        400: string;
+        300: string;
+        200: string;
+        100: string;
+        50: string;
+      };
+      error: {
+        900: string;
+        800: string;
+        700: string;
+        600: string;
+        500: string;
+        400: string;
+        300: string;
+        200: string;
+        100: string;
+        50: string;
+      };
+      tertiary: {
+        900: string;
+        800: string;
+        700: string;
+        600: string;
+        500: string;
+        400: string;
+        300: string;
+        200: string;
+        100: string;
+        50: string;
+      };
+      warning: {
+        900: string;
+        800: string;
+        700: string;
+        600: string;
+        500: string;
+        400: string;
+        300: string;
+        200: string;
+        100: string;
+        50: string;
+      };
+      grey: {
+        900: string;
+        800: string;
+        700: string;
+        600: string;
+        500: string;
+        400: string;
+        300: string;
+        200: string;
+        100: string;
+        50: string;
+      };
+      black: {
+        100: string;
+        75: string;
+        65: string;
+        50: string;
+        40: string;
+        30: string;
+        20: string;
+        10: string;
+      };
+      white: {
+        100: string;
+        75: string;
+        65: string;
+        50: string;
+        40: string;
+        30: string;
+        20: string;
+        10: string;
+      };
     };
     spacings: {
       xsmall: string;

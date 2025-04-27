@@ -3,7 +3,7 @@ import Head from 'next/head'
 import { ThemeProvider } from 'styled-components'
 
 import Header from '../components/Header'
-import MainLayout from '../components/Layout/MainLayout'
+import Layout from '../components/Layout'
 import theme from '../styles/theme'
 import GlobalStyles from '../styles/global'
 function App({ Component, pageProps }: AppProps) {
@@ -18,9 +18,9 @@ function App({ Component, pageProps }: AppProps) {
       </Head>
       <GlobalStyles />
       <Header />
-      <MainLayout>
+      <Layout>
         <Component {...pageProps} />
-      </MainLayout>
+      </Layout>
     </ThemeProvider>
   )
 }
