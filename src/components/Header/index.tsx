@@ -1,20 +1,86 @@
 'use client';
 
+import { useState, useEffect, useRef } from 'react'
+import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import * as S from './styles'
 
 export default function Header() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isScrolled, setIsScrolled] = useState(false)
+  const pathname = usePathname()
+  const scrollTimeout = useRef<NodeJS.Timeout | null>(null)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (scrollTimeout.current) {
+        clearTimeout(scrollTimeout.current)
+      }
+
+      scrollTimeout.current = setTimeout(() => {
+        const newIsScrolled = window.scrollY > 10
+        if (newIsScrolled !== isScrolled) {
+          setIsScrolled(newIsScrolled)
+        }
+      }, 50)
+    }
+
+    window.addEventListener('scroll', handleScroll)
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+      if (scrollTimeout.current) {
+        clearTimeout(scrollTimeout.current)
+      }
+    }
+  }, [isScrolled])
+
+  const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (pathname === href) {
+      e.preventDefault()
+    }
+  }
+
   return (
-    <S.Wrapper>
+    <S.Wrapper className={isScrolled ? 'scrolled' : ''}>
       <S.Logo>
-        <Link href="/">
+        <Link href="/" aria-label="Home">
           My Movies
         </Link>
       </S.Logo>
-      <S.Nav>
-        <Link href="/">Home</Link>
-        <Link href="/profile">Profile</Link>
-        <Link href="/favorites">My Favorite Movies</Link>
+
+      <S.MenuButton
+        onClick={() => setIsMenuOpen(!isMenuOpen)}
+        aria-label="Toggle menu"
+        aria-expanded={isMenuOpen}
+      >
+        <S.MenuIcon />
+      </S.MenuButton>
+
+      <S.Nav $isOpen={isMenuOpen}>
+        <Link
+          href="/"
+          className={pathname === '/' ? 'active' : ''}
+          aria-current={pathname === '/' ? 'page' : undefined}
+          onClick={(e) => handleLinkClick(e, '/')}
+        >
+          Home
+        </Link>
+        <Link
+          href="/profile"
+          className={pathname === '/profile' ? 'active' : ''}
+          aria-current={pathname === '/profile' ? 'page' : undefined}
+          onClick={(e) => handleLinkClick(e, '/profile')}
+        >
+          Profile
+        </Link>
+        <Link
+          href="/favorites"
+          className={pathname === '/favorites' ? 'active' : ''}
+          aria-current={pathname === '/favorites' ? 'page' : undefined}
+          onClick={(e) => handleLinkClick(e, '/favorites')}
+        >
+          My Favorite Movies
+        </Link>
       </S.Nav>
     </S.Wrapper>
   )
