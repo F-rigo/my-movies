@@ -1,97 +1,55 @@
-'use client';
-
-import { useEffect, useState } from 'react';
-import { useParams } from 'next/navigation';
+import { Suspense } from 'react';
 import MovieDetails from '@/components/MovieDetails';
 import { ErrorScreen } from '@/components/ErrorScreen';
-import * as S from './styles';
+import * as S from './MoviePageStyles';
 
-interface Movie {
-  id: number;
-  title: string;
-  overview: string;
-  poster_path: string;
-  backdrop_path: string;
-  release_date: string;
-  vote_average: number;
-  videos?: {
-    results: Array<{
-      key: string;
-      name: string;
-      site: string;
-      type: string;
-    }>;
-  };
+async function getMovieData(id: string) {
+  try {  // Add this line
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+    const [movieResponse, videosResponse] = await Promise.all([
+      fetch(new URL(`/api/movie/${id}`, baseUrl).toString()),
+      fetch(new URL(`/api/movie/${id}/videos`, baseUrl).toString())
+    ]);
+
+    if (!movieResponse.ok || !videosResponse.ok) {
+      throw new Error('Failed to fetch movie data');
+    }
+
+    const movieData = await movieResponse.json();
+    const videosData = await videosResponse.json();
+
+    return {
+      ...movieData,
+      videos: videosData
+    };
+  } catch (error) {
+    console.error('Error fetching movie data:', error);
+    throw error;
+  }
 }
 
-/**
- * MoviePage component displays detailed information about a specific movie
- * Fetches movie data from the TMDB API and handles loading and error states
- *
- * TODO:
- * - Add error boundary for better error handling
- * - Implement retry mechanism for failed requests
- * - Add loading skeleton for better UX
- */
-export default function MoviePage() {
-  const params = useParams();
-  const id = params?.id as string;
 
-  const [movie, setMovie] = useState<Movie | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<{ title: string; message: string } | null>(null);
+export default async function MoviePage({
+  params,
+}: {
+  params: { id: string };
+}) {
+  try {
+    const movie = await getMovieData(params.id);
 
-  useEffect(() => {
-    const fetchMovie = async () => {
-      try {
-        if (!id) {
-          setError({
-            title: 'Invalid Movie ID',
-            message: 'The movie ID is invalid or missing.'
-          });
-          return;
-        }
-
-        const [movieResponse, videosResponse] = await Promise.all([
-          fetch(`/api/movie/${id}`),
-          fetch(`/api/movie/${id}/videos`)
-        ]);
-
-        if (!movieResponse.ok || !videosResponse.ok) {
-          setError({
-            title: 'Error',
-            message: 'Failed to fetch movie data.'
-          });
-          return;
-        }
-
-        const movieData = await movieResponse.json();
-        const videosData = await videosResponse.json();
-
-        setMovie({
-          ...movieData,
-          videos: videosData
-        });
-        setLoading(false);
-      } catch (err) {
-        setError({
-          title: 'Error',
-          message: 'An unexpected error occurred.'
-        });
-        setLoading(false);
-      }
-    };
-
-    fetchMovie();
-  }, [id]);
-
-  if (loading) return <S.Loading>Loading...</S.Loading>;
-  if (error) return <ErrorScreen title={error.title} message={error.message} />;
-  if (!movie) return <ErrorScreen title="Movie Not Found" message="The movie you are looking for could not be found." />;
-
-  return (
-    <S.Container>
-      <MovieDetails movie={movie} />
-    </S.Container>
-  );
+    return (
+      <S.Container>
+        <Suspense fallback={<S.Loading>Loading...</S.Loading>}>
+          <MovieDetails movie={movie} />
+        </Suspense>
+      </S.Container>
+    );
+  } catch {
+    return (
+      <ErrorScreen
+        title="Error Loading Movie"
+        message="We couldn't load the movie details. Please try again later."
+      />
+    );
+  }
 }

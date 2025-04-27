@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 
-const TMDB_API_KEY = process.env.NEXT_PUBLIC_TMDB_API_KEY;
+const READ_ACCESS_TOKEN = 'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI4M2Q3ZDVmOTRhN2QxNTMzNTEwZTg0ZTk2ZWRjNmJkNSIsIm5iZiI6MTc0MDQwNzkwMS45MTYsInN1YiI6IjY3YmM4NDVkNzQxMTUyYjA0MjBhY2ZlNCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.tAsPPsiPzWdJdkvKAAqVUJPYhTICfla5VhvM919EzBw';
 const TMDB_BASE_URL = 'https://api.themoviedb.org/3';
 
 /**
@@ -25,19 +25,14 @@ export async function GET(
       );
     }
 
-    if (!TMDB_API_KEY) {
-      console.error('TMDB API key is missing. Current env:', {
-        NEXT_PUBLIC_TMDB_API_KEY: process.env.NEXT_PUBLIC_TMDB_API_KEY,
-        NODE_ENV: process.env.NODE_ENV
-      });
-      return NextResponse.json(
-        { error: 'Service temporarily unavailable' },
-        { status: 500 }
-      );
-    }
-
     const response = await fetch(
-      `${TMDB_BASE_URL}/movie/${id}?api_key=${TMDB_API_KEY}`
+      `${TMDB_BASE_URL}/movie/${id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${READ_ACCESS_TOKEN}`,
+          'Content-Type': 'application/json',
+        },
+      }
     );
 
     if (!response.ok) {
