@@ -14,7 +14,7 @@ export const Wrapper = styled.div`
 export const Main = styled.main`
   flex: 1;
   width: 100%;
-  max-width: 1200px;
+  max-width: ${({ theme }) => theme.grid.container};
   margin: 0 auto;
   display: flex;
   flex-direction: column;

@@ -59,7 +59,7 @@ export const CarouselContent = styled.div`
   display: flex;
   gap: 1.6rem;
   overflow-x: auto;
-  padding: 1rem 5rem;
+  padding: 1rem 0;
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
   -ms-overflow-style: none;
@@ -137,9 +137,9 @@ export const MovieRating = styled.span`
 
 export const NavigationButton = styled.button<{ $right?: boolean }>`
   position: absolute;
-  top: 50%;
+  top: calc(50% - 3rem); /* Moving up more by increasing the negative offset */
   transform: translateY(-50%);
-  background: rgba(0, 0, 0, 0.7);
+  background: ${({ theme }) => theme.colors.secondary[500]};
   border: none;
   color: white;
   width: 4rem;
@@ -157,7 +157,7 @@ export const NavigationButton = styled.button<{ $right?: boolean }>`
 
   &:hover {
     opacity: 1;
-    background: ${({ theme }) => theme.colors.secondary};
+    background: ${({ theme }) => theme.colors.secondary[800]};
   }
 
   &:disabled {

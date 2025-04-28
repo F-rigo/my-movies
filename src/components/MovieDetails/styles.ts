@@ -30,7 +30,7 @@ export const BackdropOverlay = styled.div`
 export const Content = styled.div`
   display: flex;
   gap: 3rem;
-  max-width: 1200px;
+  max-width: ${({ theme }) => theme.grid.container};
   margin: 0 auto;
   padding: 0 2rem;
   align-items: flex-start;

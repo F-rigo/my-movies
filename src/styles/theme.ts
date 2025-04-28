@@ -1,7 +1,7 @@
 // src/styles/theme.ts
 export default {
   grid: {
-    container: '130rem',
+    container: '200rem',
     gutter: '3.2rem'
   },
   border: {
