@@ -27,25 +27,68 @@ export const BackdropOverlay = styled.div`
   background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.9));
 `;
 
+export const BackButton = styled.button`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0.5rem 1.5rem 0.5rem 1rem;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+  margin-bottom: 2rem;
+  width: fit-content;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+`;
+
 export const Content = styled.div`
   display: flex;
-  gap: 3rem;
+  flex-direction: column;
   max-width: ${({ theme }) => theme.grid.container};
   margin: 0 auto;
   padding: 0 2rem;
-  align-items: flex-start;
 
   @media (max-width: 768px) {
-    flex-direction: column;
-    align-items: center;
     padding: 0 1rem;
   }
 `;
 
+export const MainContent = styled.div`
+  display: flex;
+  gap: 4rem;
+  align-items: stretch;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+  }
+`;
+
+export const LeftColumn = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2rem;
+  min-width: 350px;
+`;
+
 export const Poster = styled.div`
   position: relative;
-  width: 350px;
-  height: 525px;
+  width: 100%;
+  height: 100%;
+  min-height: 500px;
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -58,8 +101,7 @@ export const Poster = styled.div`
   }
 
   @media (max-width: 768px) {
-    width: 300px;
-    height: 450px;
+    min-height: 450px;
   }
 `;
 
@@ -69,13 +111,13 @@ export const Details = styled.div`
   max-width: 800px;
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 1rem;
 `;
 
 export const Title = styled.h1`
   font-size: 2.5rem;
   font-weight: bold;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
   line-height: 1.2;
 
   @media (max-width: 768px) {
@@ -87,7 +129,7 @@ export const Title = styled.h1`
 export const Year = styled.p`
   font-size: 1.4rem;
   color: #ccc;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
 
   @media (max-width: 768px) {
     text-align: center;
@@ -98,7 +140,7 @@ export const Rating = styled.div`
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
 
   @media (max-width: 768px) {
     justify-content: center;
@@ -117,13 +159,13 @@ export const RatingLabel = styled.span`
 `;
 
 export const Synopsis = styled.div`
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
 `;
 
 export const SynopsisTitle = styled.h2`
   font-size: 1.8rem;
   font-weight: bold;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
   color: #fff;
 `;
 
@@ -145,6 +187,7 @@ export const FavoriteButton = styled.button<{ isFavorite: boolean }>`
   color: #ffffff;
   border: none;
   width: fit-content;
+  margin-bottom: 1rem;
 
   &:hover {
     background: ${({ isFavorite }) => (!isFavorite ? '#156b42' : '#b30000')};
@@ -157,39 +200,6 @@ export const FavoriteButton = styled.button<{ isFavorite: boolean }>`
   }
 `;
 
-export const LeftColumn = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 2rem;
-`;
-
-export const BackButton = styled.button`
-  margin-bottom: 2rem;
-  padding: 0.8rem 1.5rem;
-  border-radius: 4px;
-  font-size: 1.2rem;
-  font-weight: bold;
-  cursor: pointer;
-  transition: all 0.2s;
-  background: rgba(255, 255, 255, 0.1);
-  color: #ffffff;
-  border: none;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  z-index: 10;
-
-  &:hover {
-    background: rgba(255, 255, 255, 0.2);
-  }
-
-  @media (max-width: 768px) {
-    font-size: 1.1rem;
-    margin-bottom: 1rem;
-  }
-`;
-
 export const Trailer = styled.div`
   max-width: 600px;
 `;
@@ -198,7 +208,7 @@ export const TrailerTitle = styled.h2`
   font-size: 1.8rem;
   font-weight: bold;
   color: #fff;
-  margin-top: 3rem;
+  margin-bottom: 1rem;
 `;
 
 export const TrailerContainer = styled.div`

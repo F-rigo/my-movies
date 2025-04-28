@@ -1,47 +1,43 @@
 'use client';
 
 import Image from 'next/image';
-import { useState } from 'react';
-import * as S from './styles';
 import { useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
+import { useState, useEffect } from 'react';
+import { ArrowLeft } from 'lucide-react';
+import { useFavorites } from '@/hooks/useFavorites';
+import { getMovieDetails, Movie } from '@/services/movies';
+import * as S from './styles';
 
-interface MovieDetailsProps {
-  movie: {
-    id: number;
-    title: string;
-    overview: string;
-    poster_path: string;
-    backdrop_path: string;
-    release_date: string;
-    vote_average: number;
-    videos?: {
-      results: Array<{
-        key: string;
-        name: string;
-        site: string;
-        type: string;
-      }>;
-    };
-  };
-}
-
-/**
- * MovieDetails component displays detailed information about a movie
- * including poster, backdrop, title, release year, rating, and synopsis
- *
- * TODO:
- * - Implement favorite functionality with local storage
- * - Add loading state for images
- * - Add error handling for image loading
- */
-const MovieDetails: React.FC<MovieDetailsProps> = ({ movie }) => {
+const MovieDetails = () => {
   const router = useRouter();
-  const [isFavorite, setIsFavorite] = useState(false);
+  const params = useParams();
+  const movieId = params?.id ? Number(params.id) : null;
+  const { isFavorite, toggleFavorite } = useFavorites();
+  const [movie, setMovie] = useState<Movie | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  const handleFavoriteClick = () => {
-    setIsFavorite(!isFavorite);
-    // TODO: Implement local storage for favorites
-  };
+  useEffect(() => {
+    if (movieId) {
+      getMovieDetails(movieId)
+        .then((data) => {
+          setMovie(data);
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.error('Error fetching movie details:', error);
+          setLoading(false);
+        });
+    }
+  }, [movieId]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!movie) {
+    return <div>Movie not found</div>;
+  }
 
   const imageUrl = movie.poster_path
     ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
@@ -50,8 +46,6 @@ const MovieDetails: React.FC<MovieDetailsProps> = ({ movie }) => {
   const backdropUrl = movie.backdrop_path
     ? `https://image.tmdb.org/t/p/original${movie.backdrop_path}`
     : '/placeholder.png';
-
-  const releaseYear = new Date(movie.release_date).getFullYear();
 
   return (
     <S.Wrapper>
@@ -67,61 +61,56 @@ const MovieDetails: React.FC<MovieDetailsProps> = ({ movie }) => {
       </S.Backdrop>
 
       <S.Content>
-        <S.LeftColumn>
-          <S.BackButton onClick={() => router.back()}>
-            ← Voltar
-          </S.BackButton>
-          <S.Poster>
-            <Image
-              src={imageUrl}
-              alt={`${movie.title} poster`}
-              width={300}
-              height={450}
-              style={{ objectFit: 'cover' }}
-            />
-          </S.Poster>
-        </S.LeftColumn>
+        <S.BackButton onClick={() => router.back()}>
+          <ArrowLeft size={20} />
+          Back
+        </S.BackButton>
 
-        <S.Details>
-          <S.Title>{movie.title}</S.Title>
-          <S.Year>{releaseYear}</S.Year>
+        <S.MainContent>
+          <S.LeftColumn>
+            <S.Poster>
+              <Image
+                src={imageUrl}
+                alt={`${movie.title} poster`}
+                width={350}
+                height={525}
+                style={{ objectFit: 'cover' }}
+              />
+            </S.Poster>
+          </S.LeftColumn>
 
-          <S.Rating>
-            <S.RatingValue>{movie.vote_average.toFixed(1)}</S.RatingValue>
-            <S.RatingLabel>Rating</S.RatingLabel>
-          </S.Rating>
-
-          <S.Synopsis>
-            <S.SynopsisTitle>Plot</S.SynopsisTitle>
-            <S.SynopsisText>{movie.overview}</S.SynopsisText>
-          </S.Synopsis>
-
-          <S.FavoriteButton
-            onClick={handleFavoriteClick}
-            isFavorite={isFavorite}
-          >
-            {isFavorite ? 'Remove from Favorites' : 'Add to Favorites'}
-          </S.FavoriteButton>
-
-          {movie.videos?.results.find(video => video.type === 'Trailer') && (
-            <>
-              <S.TrailerTitle>Trailer</S.TrailerTitle>
+          <S.Details>
+            <S.Title>{movie.title}</S.Title>
+            <S.Year>{new Date(movie.release_date).getFullYear()}</S.Year>
+            <S.Rating>
+              <S.RatingValue>{movie.vote_average.toFixed(1)}</S.RatingValue>
+              <S.RatingLabel>/10</S.RatingLabel>
+            </S.Rating>
+            <S.Synopsis>
+              <S.SynopsisTitle>Synopsis</S.SynopsisTitle>
+              <S.SynopsisText>{movie.overview}</S.SynopsisText>
+            </S.Synopsis>
+            <S.FavoriteButton
+              isFavorite={isFavorite(movie.id)}
+              onClick={() => toggleFavorite(movie)}
+            >
+              {isFavorite(movie.id) ? 'Remove from Favorites' : 'Add to Favorites'}
+            </S.FavoriteButton>
+            {movie.videos?.results?.[0]?.key && (
               <S.Trailer>
+                <S.TrailerTitle>Trailer</S.TrailerTitle>
                 <S.TrailerContainer>
                   <iframe
-                    width="100%"
-                    height="315"
-                    src={`https://www.youtube.com/embed/${movie.videos.results.find(video => video.type === 'Trailer')?.key}`}
+                    src={`https://www.youtube.com/embed/${movie.videos.results[0].key}`}
                     title="Movie Trailer"
-                    frameBorder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowFullScreen
                   />
                 </S.TrailerContainer>
               </S.Trailer>
-            </>
-          )}
-        </S.Details>
+            )}
+          </S.Details>
+        </S.MainContent>
       </S.Content>
     </S.Wrapper>
   );
