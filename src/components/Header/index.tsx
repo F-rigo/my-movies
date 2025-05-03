@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import * as S from './styles'
 
@@ -9,6 +9,7 @@ export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
   const pathname = usePathname()
+  const router = useRouter()
   const scrollTimeout = useRef<NodeJS.Timeout | null>(null)
 
   useEffect(() => {
@@ -40,6 +41,11 @@ export default function Header() {
     }
   }
 
+  const handleProfileClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault()
+    router.push('/login')
+  }
+
   return (
     <S.Wrapper className={isScrolled ? 'scrolled' : ''}>
       <S.Logo>
@@ -69,7 +75,7 @@ export default function Header() {
           href="/profile"
           className={pathname === '/profile' ? 'active' : ''}
           aria-current={pathname === '/profile' ? 'page' : undefined}
-          onClick={(e) => handleLinkClick(e, '/profile')}
+          onClick={handleProfileClick}
         >
           Profile
         </Link>

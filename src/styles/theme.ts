@@ -249,7 +249,18 @@ export default {
       30: 'rgba(255, 255, 255, 0.3)',
       20: 'rgba(255, 255, 255, 0.2)',
       10: 'rgba(255, 255, 255, 0.1)'
-    }
+    },
+    // Background Colors
+    background: '#120F31',
+    backgroundSecondary: '#251E62',
+    backgroundHover: '#362C92',
+    // Text Colors
+    text: '#FFFFFF',
+    textSecondary: '#8E95A9',
+    // Border Colors
+    border: '#323B54',
+    // Primary Hover
+    primaryHover: '#483BC3'
   },
   spacings: {
     xsmall: '0.8rem',
