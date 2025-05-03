@@ -176,21 +176,21 @@ export const SynopsisText = styled.p`
   max-width: 600px;
 `;
 
-export const FavoriteButton = styled.button<{ isFavorite: boolean }>`
+export const FavoriteButton = styled.button<{ 'data-isfavorite': boolean }>`
   padding: 1rem 2rem;
   border-radius: 4px;
   font-size: 1.2rem;
   font-weight: bold;
   cursor: pointer;
   transition: all 0.2s;
-  background: ${({ isFavorite }) => (!isFavorite ? '#1a7d4e' : '#ff0000')};
+  background: ${({ 'data-isfavorite': isFavorite }) => (!isFavorite ? '#1a7d4e' : '#ff0000')};
   color: #ffffff;
   border: none;
   width: fit-content;
   margin-bottom: 1rem;
 
   &:hover {
-    background: ${({ isFavorite }) => (!isFavorite ? '#156b42' : '#b30000')};
+    background: ${({ 'data-isfavorite': isFavorite }) => (!isFavorite ? '#156b42' : '#b30000')};
     color: #ffffff;
   }
 
