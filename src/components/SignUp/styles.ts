@@ -64,11 +64,11 @@ export const Input = styled.input`
   border-radius: 6px;
   background-color: ${({ theme }) => theme.colors.background};
   color: ${({ theme }) => theme.colors.text};
-  font-size: 1.125rem;
+  font-size: 1.25rem;
   transition: border-color 0.2s;
 
   &::placeholder {
-    font-size: 1.125rem;
+    font-size: 1.25rem;
     color: ${({ theme }) => theme.colors.textSecondary};
   }
 
