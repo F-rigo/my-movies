@@ -24,7 +24,7 @@ const Login = () => {
         <S.Logo>
           <Image
             src="/logo.png"
-            alt="My Movies Logo"
+            alt="CinePocket Logo"
             width={150}
             height={50}
             priority

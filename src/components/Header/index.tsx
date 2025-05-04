@@ -50,7 +50,7 @@ export default function Header() {
     <S.Wrapper className={isScrolled ? 'scrolled' : ''}>
       <S.Logo>
         <Link href="/" aria-label="Home">
-          My Movies
+          CinePocket
         </Link>
       </S.Logo>
 
@@ -85,7 +85,7 @@ export default function Header() {
           aria-current={pathname === '/favorites' ? 'page' : undefined}
           onClick={(e) => handleLinkClick(e, '/favorites')}
         >
-          My Favorite Movies
+          My Pocket
         </Link>
       </S.Nav>
     </S.Wrapper>
