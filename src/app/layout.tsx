@@ -2,12 +2,13 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import ThemeProvider from '@/components/ThemeProvider';
 import Layout from '@/components/Layout';
+import AuthProvider from '@/components/AuthProvider';
 
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'My Movies',
-  description: 'Your personal movie collection',
+  title: 'Cinepocket',
+  description: 'The best movies on your pocket',
 };
 
 export default function RootLayout({
@@ -18,9 +19,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <ThemeProvider>
-          <Layout>{children}</Layout>
-        </ThemeProvider>
+        <AuthProvider>
+          <ThemeProvider>
+            <Layout>{children}</Layout>
+          </ThemeProvider>
+        </AuthProvider>
       </body>
     </html>
   );

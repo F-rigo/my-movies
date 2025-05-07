@@ -5,17 +5,21 @@ import Image from 'next/image';
 import { Github, Mail } from 'lucide-react';
 import * as S from './styles';
 
+/**
+ * Login component
+ * Handles user authentication through email/password and social providers
+ */
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: Implement login logic
+    // TODO: Implement email/password authentication
   };
 
   const handleSocialLogin = () => {
-    // TODO: Implement social login
+    // TODO: Implement social provider authentication
   };
 
   return (

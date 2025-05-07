@@ -5,6 +5,10 @@ import Image from 'next/image';
 import { Github, Mail } from 'lucide-react';
 import * as S from './styles';
 
+/**
+ * SignUp component
+ * Handles new user registration through email/password and social providers
+ */
 const SignUp = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -12,11 +16,11 @@ const SignUp = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: Implement signup logic
+    // TODO: Implement email/password registration
   };
 
   const handleSocialSignUp = () => {
-    // TODO: Implement social signup
+    // TODO: Implement social provider registration
   };
 
   return (
