@@ -91,7 +91,7 @@ const MovieDetails = () => {
               <S.SynopsisText>{movie.overview}</S.SynopsisText>
             </S.Synopsis>
             <S.FavoriteButton
-              isFavorite={isFavorite(movie.id)}
+              data-isfavorite={isFavorite(movie.id)}
               onClick={() => toggleFavorite(movie)}
             >
               {isFavorite(movie.id) ? 'Remove from Favorites' : 'Add to Favorites'}
