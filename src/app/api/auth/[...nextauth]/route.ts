@@ -1,6 +1,5 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
-import AppleProvider from "next-auth/providers/apple";
 import CredentialsProvider from "next-auth/providers/credentials";
 
 /**
@@ -13,10 +12,6 @@ const handler = NextAuth({
       clientId: process.env.GOOGLE_CLIENT_ID as string,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
     }),
-    AppleProvider({
-      clientId: process.env.APPLE_ID as string,
-      clientSecret: process.env.APPLE_SECRET as string,
-    }),
     CredentialsProvider({
       name: "Email",
       credentials: {
@@ -24,13 +19,13 @@ const handler = NextAuth({
         password: { label: "Password", type: "password" }
       },
       async authorize() {
-        // TODO: Implement email/password authentication logic
+        // Email login will be implemented soon
         return null;
       }
     }),
   ],
   pages: {
-    signIn: '/login', // Custom login page path
+    signIn: '/login',
   },
   session: {
     strategy: "jwt",

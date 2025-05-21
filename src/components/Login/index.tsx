@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
-import { Github, Mail } from 'lucide-react';
+import { signIn } from 'next-auth/react';
 import * as S from './styles';
 
 /**
@@ -13,13 +13,17 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: Implement email/password authentication
+    // Email login will be available soon
   };
 
-  const handleSocialLogin = () => {
-    // TODO: Implement social provider authentication
+  const handleGoogleLogin = async () => {
+    try {
+      await signIn('google', { callbackUrl: '/' });
+    } catch (error) {
+      console.error('Failed to sign in with Google:', error);
+    }
   };
 
   return (
@@ -28,7 +32,7 @@ const Login = () => {
         <S.Logo>
           <Image
             src="/logo.png"
-            alt="CinePocket Logo"
+            alt="My Movies Logo"
             width={150}
             height={50}
             priority
@@ -45,9 +49,9 @@ const Login = () => {
               id="email"
               type="email"
               value={email}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
-              placeholder="Enter your email"
-              required
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Email login coming soon"
+              disabled
             />
           </S.InputGroup>
 
@@ -57,15 +61,17 @@ const Login = () => {
               id="password"
               type="password"
               value={password}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
-              placeholder="Enter your password"
-              required
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Email login coming soon"
+              disabled
             />
           </S.InputGroup>
 
           <S.ForgotPassword href="#">Forgot password?</S.ForgotPassword>
 
-          <S.LoginButton type="submit">Sign In</S.LoginButton>
+          <S.LoginButton type="submit" disabled>
+            Email Login Coming Soon
+          </S.LoginButton>
 
           <S.Divider>
             <S.DividerLine />
@@ -76,18 +82,9 @@ const Login = () => {
           <S.SocialButtons>
             <S.SocialButton
               type="button"
-              onClick={() => handleSocialLogin()}
+              onClick={handleGoogleLogin}
             >
-              <Mail size={20} />
-              Email
-            </S.SocialButton>
-
-            <S.SocialButton
-              type="button"
-              onClick={() => handleSocialLogin()}
-            >
-              <Github size={20} />
-              GitHub
+              Google
             </S.SocialButton>
           </S.SocialButtons>
         </S.Form>

@@ -76,6 +76,12 @@ export const Input = styled.input`
     outline: none;
     border-color: ${({ theme }) => theme.colors.primary[500]};
   }
+
+  &:disabled {
+    background-color: ${({ theme }) => theme.colors.backgroundSecondary};
+    cursor: not-allowed;
+    opacity: 0.7;
+  }
 `;
 
 export const ForgotPassword = styled.a`
@@ -103,6 +109,12 @@ export const LoginButton = styled.button`
 
   &:hover {
     background-color: ${({ theme }) => theme.colors.primaryHover};
+  }
+
+  &:disabled {
+    background-color: ${({ theme }) => theme.colors.backgroundSecondary};
+    cursor: not-allowed;
+    opacity: 0.7;
   }
 `;
 
