@@ -13,6 +13,7 @@ declare module 'styled-components' {
       family: string;
       light: number;
       normal: number;
+      semibold: number;
       bold: number;
       sizes: {
         xsmall: string;
@@ -128,6 +129,13 @@ declare module 'styled-components' {
         20: string;
         10: string;
       };
+      background: string;
+      backgroundSecondary: string;
+      backgroundHover: string;
+      text: string;
+      textSecondary: string;
+      border: string;
+      primaryHover: string;
     };
     spacings: {
       xsmall: string;

@@ -1,14 +1,17 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import Link from 'next/link'
+import { useSession } from 'next-auth/react'
 import * as S from './styles'
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
   const pathname = usePathname()
+  const router = useRouter()
+  const { data: session } = useSession()
   const scrollTimeout = useRef<NodeJS.Timeout | null>(null)
 
   useEffect(() => {
@@ -40,11 +43,20 @@ export default function Header() {
     }
   }
 
+  const handleProfileClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault()
+    if (session) {
+      router.push('/profile')
+    } else {
+      router.push('/login')
+    }
+  }
+
   return (
     <S.Wrapper className={isScrolled ? 'scrolled' : ''}>
       <S.Logo>
         <Link href="/" aria-label="Home">
-          My Movies
+          CinePocket
         </Link>
       </S.Logo>
 
@@ -69,7 +81,7 @@ export default function Header() {
           href="/profile"
           className={pathname === '/profile' ? 'active' : ''}
           aria-current={pathname === '/profile' ? 'page' : undefined}
-          onClick={(e) => handleLinkClick(e, '/profile')}
+          onClick={handleProfileClick}
         >
           Profile
         </Link>
@@ -79,7 +91,7 @@ export default function Header() {
           aria-current={pathname === '/favorites' ? 'page' : undefined}
           onClick={(e) => handleLinkClick(e, '/favorites')}
         >
-          My Favorite Movies
+          My Pocket
         </Link>
       </S.Nav>
     </S.Wrapper>

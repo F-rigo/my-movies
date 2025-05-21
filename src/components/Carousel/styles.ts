@@ -137,7 +137,7 @@ export const MovieRating = styled.span`
 
 export const NavigationButton = styled.button<{ $right?: boolean }>`
   position: absolute;
-  top: calc(50% - 3rem); /* Moving up more by increasing the negative offset */
+  top: calc(50% - 3rem);
   transform: translateY(-50%);
   background: ${({ theme }) => theme.colors.secondary[500]};
   border: none;
