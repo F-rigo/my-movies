@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
 import Link from 'next/link'
+import { useSession } from 'next-auth/react'
 import * as S from './styles'
 
 export default function Header() {
@@ -10,6 +11,7 @@ export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false)
   const pathname = usePathname()
   const router = useRouter()
+  const { data: session } = useSession()
   const scrollTimeout = useRef<NodeJS.Timeout | null>(null)
 
   useEffect(() => {
@@ -43,7 +45,11 @@ export default function Header() {
 
   const handleProfileClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault()
-    router.push('/login')
+    if (session) {
+      router.push('/profile')
+    } else {
+      router.push('/login')
+    }
   }
 
   return (
